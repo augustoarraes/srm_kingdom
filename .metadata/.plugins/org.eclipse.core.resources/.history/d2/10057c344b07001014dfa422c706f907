@@ -1,0 +1,5 @@
+package com.srmasset.api.repositories;
+
+public class Transacao {
+
+}

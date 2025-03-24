@@ -1,0 +1,32 @@
+package com.srmasset.api.dtos;
+
+import com.srmasset.api.models.TaxaCambioModel;
+
+public class TaxaCambioCompletaDto {
+	
+	private TaxaCambioDto moedaOrigemParaMoedaDestino;
+	private TaxaCambioDto moedaDestinoParaMoedaOrigem;
+	
+	public TaxaCambioCompletaDto(TaxaCambioModel moedaOrigemParaMoedaDestino, TaxaCambioModel moedaDestinoParaMoedaOrigem) {
+		super();
+		this.moedaOrigemParaMoedaDestino = moedaOrigemParaMoedaDestino;
+		this.moedaDestinoParaMoedaOrigem = moedaDestinoParaMoedaOrigem;
+	}
+
+	public TaxaCambioDto getMoedaOrigemParaMoedaDestino() {
+		return moedaOrigemParaMoedaDestino;
+	}
+
+	public void setMoedaOrigemParaMoedaDestino(TaxaCambioDto moedaOrigemParaMoedaDestino) {
+		this.moedaOrigemParaMoedaDestino = moedaOrigemParaMoedaDestino;
+	}
+
+	public TaxaCambioDto getMoedaDestinoParaMoedaOrigem() {
+		return moedaDestinoParaMoedaOrigem;
+	}
+
+	public void setMoedaDestinoParaMoedaOrigem(TaxaCambioDto moedaDestinoParaMoedaOrigem) {
+		this.moedaDestinoParaMoedaOrigem = moedaDestinoParaMoedaOrigem;
+	}
+
+}

@@ -1,0 +1,12 @@
+package com.srmasset.api.repositories;
+
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.srmasset.api.models.TransacaoModel;
+
+@Repository
+public interface Transacao extends JpaRepository<TransacaoModel, Long>{
+
+}

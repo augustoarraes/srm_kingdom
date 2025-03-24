@@ -1,0 +1,5 @@
+package com.srmasset.api.infra;
+
+public class RabbitMQConfig {
+
+}

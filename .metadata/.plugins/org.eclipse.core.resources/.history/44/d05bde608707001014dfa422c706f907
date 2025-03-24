@@ -1,0 +1,31 @@
+package com.srmasset.api.controllers;
+
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.srmasset.api.services.MoedaService;
+
+@RestController
+@CrossOrigin(origins="*", maxAge=3600)
+@RequestMapping("/moeda")
+public class MoedaController {
+	
+	final MoedaService moedaService;
+
+	public MoedaController(MoedaService moedaService) {
+		this.moedaService = moedaService;
+	}
+	
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> updateMoedaOuroTibar(@PathVariable(value="id") Long id, @RequestBody @Valid MoedaDto moedaDto){
+		
+	}
+}

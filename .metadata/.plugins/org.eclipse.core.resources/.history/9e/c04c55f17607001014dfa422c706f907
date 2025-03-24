@@ -1,0 +1,10 @@
+package com.srmasset.api.dtos;
+
+public class ProdutoDto {
+
+	private String nome;
+	private double valor;
+	private long idMoedaRef;
+	private String reino;
+	private double taxaEspecifica;
+}

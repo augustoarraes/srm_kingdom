@@ -1,0 +1,46 @@
+package com.srmasset.api.models;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="taxa_cambio")
+public class TaxaCambioModel implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private long id;
+	
+	@Column(nullable=false, length=20)
+	private String nomeProduto;
+	
+	@Column(nullable=false, length=15)
+	private String categoria;
+	
+	@Column(nullable=false)
+	private int quantidade=0;
+	
+	@Column(nullable=false)
+	private LocalDateTime dataCriacao;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	
+	
+}

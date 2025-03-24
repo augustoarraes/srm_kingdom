@@ -1,0 +1,105 @@
+package com.srmasset.api.models;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="transacao")
+public class TransacaoModel implements Serializable {
+	
+private static final Long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	@Column(name = "id_produto", nullable=false)
+	private long idProduto;
+	
+	@Column(name = "valor_final", nullable=false)
+	private double valorFinal;
+	
+	private LocalDateTime data;
+	
+	private String reino;
+	
+	private String protocolo;
+	
+	@Column(name = "id_moeda_origem", nullable=false)
+	private long idMoedaOrigem;
+	
+	@Column(name = "id_moeda_destino", nullable=false)
+	private long idMoedaDestino;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(long idProduto) {
+		this.idProduto = idProduto;
+	}
+
+	public double getValorFinal() {
+		return valorFinal;
+	}
+
+	public void setValorFinal(double valorFinal) {
+		this.valorFinal = valorFinal;
+	}
+
+	public LocalDateTime getData() {
+		return data;
+	}
+
+	public void setData(LocalDateTime data) {
+		this.data = data;
+	}
+
+	public String getReino() {
+		return reino;
+	}
+
+	public void setReino(String reino) {
+		this.reino = reino;
+	}
+
+	public long getIdMoedaOrigem() {
+		return idMoedaOrigem;
+	}
+
+	public void setIdMoedaOrigem(long idMoedaOrigem) {
+		this.idMoedaOrigem = idMoedaOrigem;
+	}
+
+	public long getIdMoedaDestino() {
+		return idMoedaDestino;
+	}
+
+	public void setIdMoedaDestino(long idMoedaDestino) {
+		this.idMoedaDestino = idMoedaDestino;
+	}
+
+	public String getProtocolo() {
+		return protocolo;
+	}
+
+	public void setProtocolo(String protocolo) {
+		this.protocolo = protocolo;
+	}
+
+}

@@ -1,0 +1,61 @@
+package com.srmasset.api.dtos;
+
+import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class ConversaoFilaResponseDto {
+	private String status;
+	private long idProduto;
+	private long idMoedaDestino;
+	private double quantidade;
+	@JsonProperty("protocolo")
+	private UUID uuid;
+
+	public ConversaoFilaResponseDto(String status, long idProduto, long idMoedaDestino, double quantidade, UUID uuid) {
+		this.status = status;
+		this.idProduto = idProduto;
+		this.idMoedaDestino = idMoedaDestino;
+		this.quantidade = quantidade;
+		this.uuid = uuid;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public long getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(long idProduto) {
+		this.idProduto = idProduto;
+	}
+
+	public long getIdMoedaDestino() {
+		return idMoedaDestino;
+	}
+
+	public void setIdMoedaDestino(long idMoedaDestino) {
+		this.idMoedaDestino = idMoedaDestino;
+	}
+
+	public double getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(double quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
+}

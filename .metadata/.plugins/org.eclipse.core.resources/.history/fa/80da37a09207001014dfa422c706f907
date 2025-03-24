@@ -1,0 +1,34 @@
+package com.srmasset.api.dtos;
+
+
+	import com.srmasset.api.models.TransacaoModel;
+	import org.springframework.data.jpa.domain.Specification;
+	import javax.persistence.criteria.Predicate;
+	import java.time.LocalDate;
+	import java.util.ArrayList;
+	import java.util.List;
+
+	public class TransacaoCamposConsulta {
+	    
+	    public static Specification<TransacaoModel> filtrarTransacoes(Long idMoedaOrigem, Long idMoedaDestino, String reino, 
+	                                                                  LocalDate dataInicio, LocalDate dataFim) {
+	        return (root, query, criteriaBuilder) -> {
+	            List<Predicate> predicates = new ArrayList<>();
+
+	            if (idMoedaOrigem != null) {
+	                predicates.add(criteriaBuilder.equal(root.get("idMoedaOrigem"), idMoedaOrigem));
+	            }
+	            if (idMoedaDestino != null) {
+	                predicates.add(criteriaBuilder.equal(root.get("idMoedaDestino"), idMoedaDestino));
+	            }
+	            if (reino != null && !reino.isEmpty()) {
+	                predicates.add(criteriaBuilder.like(root.get("reino"), "%" + reino + "%"));
+	            }
+	            if (dataInicio != null && dataFim != null) {
+	                predicates.add(criteriaBuilder.between(root.get("data"), dataInicio.atStartOfDay(), dataFim.atTime(23, 59, 59)));
+	            }
+
+	            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+	        };
+	    }
+	}

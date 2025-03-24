@@ -1,0 +1,78 @@
+package com.srmasset.api.models;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="produto")
+public class ProdutoModel implements Serializable {
+	
+	private static final Long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	private String nome;
+	
+	private double valor;
+	
+	@Column(name = "id_moeda_ref", nullable=false)
+	private long idMoedaRef;
+	
+	private String reino;
+	
+	private double taxa_especifica;
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
+	public long getIdMoedaRef() {
+		return idMoedaRef;
+	}
+
+	public void setIdMoedaRef(long idMoedaRef) {
+		this.idMoedaRef = idMoedaRef;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public String getReino() {
+		return reino;
+	}
+
+	public void setReino(String reino) {
+		this.reino = reino;
+	}
+
+	public double getTaxa_especifica() {
+		return taxa_especifica;
+	}
+
+	public void setTaxa_especifica(double taxa_especifica) {
+		this.taxa_especifica = taxa_especifica;
+	}
+	
+}

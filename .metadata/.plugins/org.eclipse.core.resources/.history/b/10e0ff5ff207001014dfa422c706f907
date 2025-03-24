@@ -1,0 +1,81 @@
+package com.srmasset.api.dtos;
+
+import java.time.LocalDateTime;
+
+public class TransacaoConsultaAvancadaDto {
+	private String protocolo;
+	private long produto;
+	private long moedaOrigem;
+	private long moedaDestino;
+	private String reino;
+	private double valorFinal;
+	private LocalDateTime data;
+
+	public TransacaoConsultaAvancadaDto(String protocolo, long produto, long moedaOrigem, long moedaDestino,
+			String reino, double valorFinal, LocalDateTime data) {
+		this.protocolo = protocolo;
+		this.produto = produto;
+		this.moedaOrigem = moedaOrigem;
+		this.moedaDestino = moedaDestino;
+		this.reino = reino;
+		this.valorFinal = valorFinal;
+		this.data = data;
+	}
+
+	public String getProtocolo() {
+		return protocolo;
+	}
+
+	public void setProtocolo(String protocolo) {
+		this.protocolo = protocolo;
+	}
+
+	public long getProduto() {
+		return produto;
+	}
+
+	public void setProduto(long produto) {
+		this.produto = produto;
+	}
+
+	public long getMoedaOrigem() {
+		return moedaOrigem;
+	}
+
+	public void setMoedaOrigem(long moedaOrigem) {
+		this.moedaOrigem = moedaOrigem;
+	}
+
+	public long getMoedaDestino() {
+		return moedaDestino;
+	}
+
+	public void setMoedaDestino(long moedaDestino) {
+		this.moedaDestino = moedaDestino;
+	}
+
+	public String getReino() {
+		return reino;
+	}
+
+	public void setReino(String reino) {
+		this.reino = reino;
+	}
+
+	public double getValorFinal() {
+		return valorFinal;
+	}
+
+	public void setValorFinal(double valorFinal) {
+		this.valorFinal = valorFinal;
+	}
+
+	public LocalDateTime getData() {
+		return data;
+	}
+
+	public void setData(LocalDateTime data) {
+		this.data = data;
+	}
+
+}

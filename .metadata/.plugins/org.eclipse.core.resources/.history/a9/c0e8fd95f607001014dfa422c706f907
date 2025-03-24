@@ -1,0 +1,36 @@
+package com.srmasset.api.repositories;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.srmasset.api.models.TransacaoModel;
+
+@Repository
+public interface TransacaoRepository extends JpaRepository<TransacaoModel, Long>{
+
+	Optional<TransacaoModel> findByProtocolo(String protocolo);
+	
+	@Query("SELECT t FROM TransacaoModel t " +
+	           "JOIN ProdutoModel p ON t.idProduto = p.id " +
+	           "JOIN MoedaModel mOrigem ON t.idMoedaOrigem = mOrigem.id " +
+	           "JOIN MoedaModel mDestino ON t.idMoedaDestino = mDestino.id " +
+	           "WHERE (:moedaOrigem IS NULL OR LOWER(mOrigem.nome) LIKE LOWER(CONCAT('%', :moedaOrigem, '%'))) " +
+	           "AND (:moedaDestino IS NULL OR LOWER(mDestino.nome) LIKE LOWER(CONCAT('%', :moedaDestino, '%'))) " +
+	           "AND (:reino IS NULL OR LOWER(t.reino) LIKE LOWER(CONCAT('%', :reino, '%'))) " +
+	           "AND (:dataInicio IS NULL OR :dataFim IS NULL OR t.data BETWEEN :dataInicio AND :dataFim) " +
+	           "AND (:protocolo IS NULL OR LOWER(t.protocolo) = LOWER(:protocolo)) ")
+	    List<TransacaoModel> buscarTransacoes(
+	            @Param("moedaOrigem") String moedaOrigem,
+	            @Param("moedaDestino") String moedaDestino,
+	            @Param("reino") String reino,
+	            @Param("dataInicio") LocalDateTime dataInicio,
+	            @Param("dataFim") LocalDateTime dataFim,
+	            @Param("protocolo") String protocolo);
+
+}

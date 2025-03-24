@@ -1,0 +1,78 @@
+package com.srmasset.api.models;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="taxa_cambio")
+public class TaxaCambioModel implements Serializable{
+	
+	private static final Long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_moeda_origem", referencedColumnName = "id", insertable = false, updatable = false)
+	private MoedaModel moedaOrigem;
+	
+	@Column(name = "id_moeda_destino", nullable=false)
+	private long idMoedaDestino;
+	
+	@Column(name = "valor_taxa", nullable=false)
+	private double valorTaxa=0;
+	
+	@Column(nullable=false)
+	private LocalDateTime data;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public MoedaModel getMoedaOrigem() {
+		return moedaOrigem;
+	}
+
+	public void setMoedaOrigem(MoedaModel moedaOrigem) {
+		this.moedaOrigem = moedaOrigem;
+	}
+
+	public long getIdMoedaDestino() {
+		return idMoedaDestino;
+	}
+
+	public void setIdMoedaDestino(long idMoedaDestino) {
+		this.idMoedaDestino = idMoedaDestino;
+	}
+
+	public double getValorTaxa() {
+		return valorTaxa;
+	}
+
+	public void setValorTaxa(double valorTaxa) {
+		this.valorTaxa = valorTaxa;
+	}
+
+	public LocalDateTime getData() {
+		return data;
+	}
+
+	public void setData(LocalDateTime data) {
+		this.data = data;
+	}
+	
+}

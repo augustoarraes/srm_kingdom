@@ -1,0 +1,130 @@
+package com.srmasset.api.controllers;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Optional;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.srmasset.api.dtos.ConversaoFilaResponseDto;
+import com.srmasset.api.dtos.ConversaoResponseDto;
+import com.srmasset.api.infra.ConversaoProducerInfra;
+import com.srmasset.api.infra.RabbitMQConfig;
+import com.srmasset.api.models.TransacaoModel;
+import com.srmasset.api.services.TransacaoService;
+
+@RestController
+@CrossOrigin(origins="*", maxAge=3600)
+@RequestMapping("/transacao")
+public class TransacaoController {
+	
+	private final TransacaoService transacaoService;
+	private final ConversaoProducerInfra conversaoProducerInfra;
+
+	public TransacaoController(TransacaoService transacaoService,
+			ConversaoProducerInfra conversaoProducerInfra) {
+		this.transacaoService = transacaoService;
+		this.conversaoProducerInfra = conversaoProducerInfra;
+	}
+	
+	/**
+	 * Via Mensagem, serviço de infra da API. Aqui a conversão é publicada na vila 
+	 * ao invés de processar de imediato, como no metodo converterMoeda()
+	 * @param idProduto
+	 * @param idMoedaDestino
+	 * @param quantidade
+	 * @return
+	 */
+	@PostMapping("/converter/fila") 
+    public ResponseEntity<ConversaoFilaResponseDto> converterMoedaFila(@RequestParam long idProduto,
+                                                 @RequestParam long idMoedaDestino,
+                                                 @RequestParam double quantidade) {
+		UUID uuid = UUID.randomUUID();
+        String mensagem = idProduto + "," + idMoedaDestino + "," 
+                         + quantidade + "," + uuid;
+        conversaoProducerInfra.enviarMensagem(mensagem);
+        
+        ConversaoFilaResponseDto response = new ConversaoFilaResponseDto(
+                "Solicitação " + uuid + " de conversão enviada para processamento.",
+                idProduto,
+                idMoedaDestino,
+                quantidade,
+                uuid // protocolo de consulta da transação
+        );
+
+        return ResponseEntity.ok(response);
+    }
+	
+	
+	@RabbitListener(queues = RabbitMQConfig.SRM_FILA_CONVERSAO)
+    public void processarMensagem(String mensagem) { // consumir
+        try {
+            String[] dados = mensagem.split(",");
+            long idProduto = Long.parseLong(dados[0]);
+            long idMoedaDestino = Long.parseLong(dados[1]);
+            double quantidade = Double.parseDouble(dados[2]);
+            String uuid = dados[3];
+
+            ConversaoResponseDto response = transacaoService.converterMoeda(idProduto, idMoedaDestino, quantidade, uuid);
+            System.out.println("Conversão processada: " + response.toString());
+        } catch (Exception e) {
+            System.err.println("Erro ao processar conversão: " + e.getMessage());
+        }
+    }
+	
+	@GetMapping("/{protocolo}")
+	public ResponseEntity<Object> getTransacaoByProtocolo(@PathVariable(value="protocolo") String protocolo){
+		Optional<TransacaoModel> transacaoModelOptional = transacaoService.findByProtocolo(protocolo);
+		if (transacaoModelOptional.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transação não encontrado!");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(transacaoModelOptional);
+		
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<TransacaoModel>> listarTransacoesProcessadas() {
+        return ResponseEntity.status(HttpStatus.OK).body(transacaoService.findAll());
+    }
+	
+	/**
+	 * Via API direto, modo simples
+	 * @param idProduto
+	 * @param idMoedaDestino
+	 * @param quantidade
+	 * @return
+	 */
+	@PostMapping("/converter") 
+    public ResponseEntity<Object> converterMoeda(@RequestParam long idProduto,
+                                                 @RequestParam long idMoedaDestino,
+                                                 @RequestParam double quantidade) {
+        try {
+        	ConversaoResponseDto response = this.transacaoService.converterMoeda(idProduto, idMoedaDestino, quantidade, null);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+	
+	@GetMapping("/consulta")
+    public ResponseEntity<List<TransacaoConsultaDto>> consultarTransacoesSimples(
+            @RequestParam(required = false) String moedaOrigem,
+            @RequestParam(required = false) String moedaDestino,
+            @RequestParam(required = false) String reino,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            @RequestParam(required = false) String protocolo) {
+        
+        return ResponseEntity.ok(transacaoService.consultarTransacoes(moedaOrigem, moedaDestino, reino, dataInicio, dataFim, protocolo));
+    }
+
+}

@@ -1,0 +1,9 @@
+package com.srmasset.api.formulas;
+
+public class ConversaoFixa implements ConversaoFormulaStrategy{
+	
+	@Override
+    public double calcularConversao(double valorBase, double taxaCambio, double ajuste) {
+        return (valorBase * taxaCambio) + ajuste;
+    }
+}

@@ -1,0 +1,35 @@
+package com.srmasset.api.dtos;
+
+import org.springframework.beans.BeanUtils;
+
+import com.srmasset.api.models.TaxaCambioModel;
+
+public class TaxaCambioCompletaDto {
+	
+	private TaxaCambioDto moedaDestinoParaMoedaOrigem;
+	private TaxaCambioDto moedaOrigemParaMoedaDestino;
+	
+	public TaxaCambioCompletaDto(TaxaCambioModel moedaDestinoParaMoedaOrigem, TaxaCambioModel moedaOrigemParaMoedaDestino) {
+		//this.moedaOrigemParaMoedaDestino = moedaOrigemParaMoedaDestino;
+		BeanUtils.copyProperties(moedaOrigemParaMoedaDestino, moedaOrigemParaMoedaDestino);
+		//sthis.moedaDestinoParaMoedaOrigem = moedaDestinoParaMoedaOrigem;
+		BeanUtils.copyProperties(moedaDestinoParaMoedaOrigem, moedaDestinoParaMoedaOrigem);
+	}
+
+	public TaxaCambioDto getMoedaOrigemParaMoedaDestino() {
+		return moedaOrigemParaMoedaDestino;
+	}
+
+	public void setMoedaOrigemParaMoedaDestino(TaxaCambioDto moedaOrigemParaMoedaDestino) {
+		this.moedaOrigemParaMoedaDestino = moedaOrigemParaMoedaDestino;
+	}
+
+	public TaxaCambioDto getMoedaDestinoParaMoedaOrigem() {
+		return moedaDestinoParaMoedaOrigem;
+	}
+
+	public void setMoedaDestinoParaMoedaOrigem(TaxaCambioDto moedaDestinoParaMoedaOrigem) {
+		this.moedaDestinoParaMoedaOrigem = moedaDestinoParaMoedaOrigem;
+	}
+
+}

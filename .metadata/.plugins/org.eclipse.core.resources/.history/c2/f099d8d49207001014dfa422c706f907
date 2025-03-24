@@ -1,0 +1,10 @@
+package com.srmasset.api.repositories;
+
+	import com.srmasset.api.models.TransacaoModel;
+	import org.springframework.data.jpa.repository.JpaRepository;
+	import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+	import org.springframework.stereotype.Repository;
+
+	@Repository
+	public interface TransacaoConsultaAvancadaRepository extends JpaRepository<TransacaoModel, Long>, JpaSpecificationExecutor<TransacaoModel> {
+	}

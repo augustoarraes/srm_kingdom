@@ -1,0 +1,8 @@
+package com.srmasset.api.dtos;
+
+public class TaxaCambioCompletaDto {
+	
+	private TaxaCambioDto moedaOrigemParaMoedaDestino;
+	private TaxaCambioDto moedaDestinoParaMoedaOrigem;
+
+}

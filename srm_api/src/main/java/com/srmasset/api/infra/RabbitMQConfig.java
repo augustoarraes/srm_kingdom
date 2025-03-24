@@ -1,0 +1,17 @@
+package com.srmasset.api.infra;
+
+import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class RabbitMQConfig {
+
+    public static final String SRM_FILA_CONVERSAO = "fila_transacao_conversao";
+
+    @Bean
+    public Queue filaConversao() {
+        return new Queue(SRM_FILA_CONVERSAO, true);
+    }
+}
+

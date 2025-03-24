@@ -1,0 +1,72 @@
+package com.srmasset.api.dtos;
+
+import java.time.LocalDateTime;
+
+import javax.validation.constraints.NotBlank;
+
+import com.srmasset.api.models.TaxaCambioModel;
+
+public class TaxaCambioDto {
+	
+
+	@NotBlank
+	private double valor_taxa;
+	
+	private LocalDateTime data;
+	
+	private long idMoedaOrigem;
+	private String nomeMoedaOrigem;
+	
+	private long idMoedaDestino;
+	
+	public TaxaCambioDto(TaxaCambioModel taxaCambio) {
+        this.valor_taxa = taxaCambio.getValorTaxa();
+        this.data = taxaCambio.getData();
+        this.idMoedaOrigem = taxaCambio.getMoedaOrigem().getId();
+        this.nomeMoedaOrigem = taxaCambio.getMoedaOrigem().getNome();
+        //this.idMoedaDestino = taxaCambio.getMoedaDestino().getId();
+        //this.nomeMoedaDestino = taxaCambio.getMoedaDestino().getNome();
+    }
+	
+	
+	public String getNomeMoedaOrigem() {
+		return nomeMoedaOrigem;
+	}
+
+	public void setNomeMoedaOrigem(String nomeMoedaOrigem) {
+		this.nomeMoedaOrigem = nomeMoedaOrigem;
+	}
+
+	public double getValor_taxa() {
+		return valor_taxa;
+	}
+	
+	public void setValor_taxa(double valor_taxa) {
+		this.valor_taxa = valor_taxa;
+	}
+	
+	public LocalDateTime getData() {
+		return data;
+	}
+	
+	public void setData(LocalDateTime data) {
+		this.data = data;
+	}
+	
+	public long getIdMoedaOrigem() {
+		return idMoedaOrigem;
+	}
+
+	public void setIdMoedaOrigem(long idMoedaOrigem) {
+		this.idMoedaOrigem = idMoedaOrigem;
+	}
+
+	public long getIdMoedaDestino() {
+		return idMoedaDestino;
+	}
+
+	public void setIdMoedaDestino(long idMoedaDestino) {
+		this.idMoedaDestino = idMoedaDestino;
+	}
+
+}

@@ -1,0 +1,72 @@
+package com.srmasset.api.controllers;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.srmasset.api.dtos.TaxaCambioDto;
+import com.srmasset.api.models.TaxaCambioModel;
+import com.srmasset.api.services.TaxaCambioService;
+
+@RestController
+@CrossOrigin(origins="*", maxAge=3600)
+@RequestMapping("/taxacambio")
+public class TaxaCambioController {
+	
+	final TaxaCambioService taxacambioService;
+
+	public TaxaCambioController(TaxaCambioService taxacambioService) {
+		this.taxacambioService = taxacambioService;
+	}
+	
+	@PostMapping
+	public ResponseEntity<Object> salvarTaxaCambio( @RequestBody @Valid TaxaCambioDto taxacambioDto ){
+		var taxacambioModel = new TaxaCambioModel();
+		BeanUtils.copyProperties(taxacambioDto, taxacambioModel);
+		//taxacambioModel.setId_moeda_origem( taxacambioDto.getId_moeda_origem() );
+		//taxacambioModel.setId_moeda_destino( taxacambioDto.getId_moeda_destino() );
+		//taxacambioModel.setValor_taxa( taxacambioDto.getValor_taxa() );
+		return ResponseEntity.status(HttpStatus.CREATED).body( taxacambioService.save(taxacambioModel) );
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<TaxaCambioModel>> getTodosTaxaCambio(){
+		return ResponseEntity.status(HttpStatus.OK).body(taxacambioService.findAll());
+	}
+	
+	
+	@GetMapping("/{idMoedaOrigem}")
+	public ResponseEntity<Object> getTaxaCambioIdMoedaOrigem(@PathVariable(value="idMoedaOrigem") long idMoedaOrigem){
+		List<TaxaCambioModel> taxacambioModelOptional = taxacambioService.findByIdMoedaOrigem(idMoedaOrigem);
+		if (taxacambioModelOptional.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Taxa de Cambio não encontrado!");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(taxacambioModelOptional);
+	}	
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> updateTaxaCambio(@PathVariable(value="id") Long id, @RequestBody @Valid TaxaCambioDto taxacambioDto){
+		Optional<TaxaCambioModel> taxacambioModelOptional = taxacambioService.findByid(id);
+		if (!taxacambioModelOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Taxa de Cambio não encontrado!");
+		}
+		var taxacambioModel = new TaxaCambioModel();
+		BeanUtils.copyProperties(taxacambioDto, taxacambioModel);
+		taxacambioModel.setId( taxacambioModelOptional.get().getId() );
+		return ResponseEntity.status(HttpStatus.OK).body(taxacambioService.save(taxacambioModel));
+	}
+
+}

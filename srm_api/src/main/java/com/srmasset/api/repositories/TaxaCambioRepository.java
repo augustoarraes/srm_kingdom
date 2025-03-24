@@ -1,0 +1,19 @@
+package com.srmasset.api.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.srmasset.api.models.TaxaCambioModel;
+
+@Repository
+public interface TaxaCambioRepository extends JpaRepository<TaxaCambioModel, Long> {
+
+	List<TaxaCambioModel> findByIdMoedaOrigem(long idMoedaOrigem);
+	
+	List<TaxaCambioModel> findByIdMoedaOrigemOrIdMoedaDestino(long idMoedaOrigem, long idMoedaDestino);
+
+	TaxaCambioModel findByIdMoedaOrigemAndIdMoedaDestino(long idMoedaOrigem, long idMoedaDestino);
+
+}

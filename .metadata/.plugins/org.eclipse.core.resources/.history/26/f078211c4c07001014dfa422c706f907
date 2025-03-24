@@ -1,0 +1,41 @@
+package com.srmasset.api.models;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="transacao")
+public class TransacaoModel implements Serializable {
+	
+private static final Long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private long id;
+	
+	@Column(name = "id_produto", nullable=false)
+	private long idProduto;
+	
+	private double valor_final;
+	
+	private LocalDateTime data;
+	
+	private String reino;
+	
+	@Column(name = "id_moeda_origem", nullable=false)
+	private long idMoedaOrigem;
+	
+	@Column(name = "id_moeda_destino", nullable=false)
+	private long idMoedaDestino;
+	
+	
+	
+
+}

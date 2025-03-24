@@ -1,0 +1,16 @@
+package com.srmasset.api.repositories;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.srmasset.api.models.TransacaoModel;
+
+@Repository
+public interface TransacaoRepository extends JpaRepository<TransacaoModel, Long>{
+
+	Optional<TransacaoModel> findByProtocolo(String protocolo);
+
+}
