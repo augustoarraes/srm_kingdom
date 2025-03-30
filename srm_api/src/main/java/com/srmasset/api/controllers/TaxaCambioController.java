@@ -44,8 +44,8 @@ public class TaxaCambioController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<TaxaCambioModel>> getTodosTaxaCambio(){
-		return ResponseEntity.status(HttpStatus.OK).body(taxacambioService.findAll());
+	public ResponseEntity<List<TaxaCambioDto>> getTodosTaxaCambio(){
+		return ResponseEntity.status(HttpStatus.OK).body( taxacambioService.findAll() );
 	}
 	
 	

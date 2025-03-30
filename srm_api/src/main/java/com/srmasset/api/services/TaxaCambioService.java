@@ -11,6 +11,7 @@ import com.srmasset.api.models.TaxaCambioModel;
 import com.srmasset.api.repositories.TaxaCambioRepository;
 
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,8 +28,9 @@ public class TaxaCambioService {
 		return taxacambioRepository.save(taxacambioModel);
 	}
 
-	public List<TaxaCambioModel> findAll() {
-		return taxacambioRepository.findAll();
+	public List<TaxaCambioDto> findAll() {
+		List<TaxaCambioModel> taxaList = taxacambioRepository.findAll();
+		return taxaList.stream().map(TaxaCambioDto::new).collect(Collectors.toList());
 	}
 
 	public Optional<TaxaCambioModel> findByid(long id) {
