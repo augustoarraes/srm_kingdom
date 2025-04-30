@@ -70,3 +70,6 @@ Aqui você pode testar via Postman.
 Gerenciador do [RabbitMQ](http://localhost:15672/#/queues), Usuário e Senha: guest
 
 
+## Contato
+
+[Augusto Arraes](http://linktr.ee/a.arraes)
